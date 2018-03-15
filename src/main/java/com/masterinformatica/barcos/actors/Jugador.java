@@ -1,5 +1,6 @@
 package com.masterinformatica.barcos.actors;
 
+import com.masterinformatica.barcos.messages.Coordenada;
 import com.masterinformatica.barcos.messages.Movimiento;
 
 import akka.actor.UntypedActor;
@@ -18,7 +19,7 @@ public class Jugador extends UntypedActor {
 
         	log.info(msg.toString());
         	waitPing();
-            getSender().tell(new Movimiento("Ping!"), getSelf());
+            getSender().tell(new Movimiento(new Coordenada(0, 0)), getSelf());
 
         } else {
             unhandled(o);

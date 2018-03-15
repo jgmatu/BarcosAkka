@@ -2,14 +2,14 @@ package com.masterinformatica.barcos.messages;
 
 public class Movimiento {
 
-	private String name;
+	private Coordenada coordenada;
 	
-	public Movimiento(String name) {
-		this.name = name;
+	public Movimiento(Coordenada coordenada) {
+		this.coordenada = coordenada;
 	}
 	
 	@Override
 	public String toString() {
-		return this.name;
+		return String.format("Coord : %s", this.coordenada.toString());
 	}
 }

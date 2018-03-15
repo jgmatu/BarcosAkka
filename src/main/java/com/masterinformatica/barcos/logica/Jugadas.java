@@ -9,5 +9,5 @@ public interface Jugadas {
 	public void ganar();
 	public void hundir();
 	public void colocar();
-	
+	public boolean existe(Movimiento m);
 }
