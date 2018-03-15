@@ -20,7 +20,6 @@ public class Casilla {
 	
 	@Override
 	public String toString() {
-		return String.format(" %s %d %b ", this.coordenada.toString(), this.number, this.state);
+		return String.format(" %s %d %s ", this.coordenada.toString(), this.number, (this.state) ? "marcada" : "vacia");
 	}
-	
 }

@@ -20,7 +20,6 @@ public class Carton {
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
 				int number = rand.nextInt(Bombo.MAX_NUMBERS) + 1;
-				System.err.println(String.format("i : %d, j : %d", i, j));
 				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);				
 			}
 		}		
