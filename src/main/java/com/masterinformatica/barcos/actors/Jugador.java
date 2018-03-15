@@ -1,7 +1,7 @@
 package com.masterinformatica.barcos.actors;
 
-import com.masterinformatica.barcos.messages.Coordenada;
-import com.masterinformatica.barcos.messages.Movimiento;
+import com.masterinformatica.bingo.entities.Bombo;
+import com.masterinformatica.bingo.entities.Carton;
 
 import akka.actor.UntypedActor;
 import akka.event.Logging;
@@ -10,28 +10,17 @@ import akka.event.LoggingAdapter;
 public class Jugador extends UntypedActor {
 
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+	
+	private Carton carton;
+	
+    @Override
+    public void preStart() {
+    	this.carton = new Carton();
+    }
 
     @Override
     public void onReceive(Object o) {
-    	
-        if (o instanceof Movimiento) {
-        	Movimiento msg = (Movimiento) o;
-
-        	log.info(msg.toString());
-        	waitPing();
-            getSender().tell(new Movimiento(new Coordenada(0, 0)), getSelf());
-
-        } else {
-            unhandled(o);
-        }
-    }
-    
-    private void waitPing() {
-    	try {
-    		Thread.sleep(1500);
-    	} catch (InterruptedException e) {
-    		;
-    	}
+    	;
     }
     
     @Override 

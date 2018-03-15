@@ -1,11 +1,7 @@
 package com.masterinformatica.barcos.actors;
 
-import com.masterinformatica.barcos.messages.Coordenada;
-import com.masterinformatica.barcos.messages.Movimiento;
-import com.masterinformatica.barcos.messages.Barcos;
+import com.masterinformatica.bingo.entities.Bombo;
 
-import akka.actor.ActorRef;
-import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -14,40 +10,18 @@ public class Manager extends UntypedActor {
 
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
+	private Bombo bombo;
+	
     @Override
     public void preStart() {
-    	
-    	// Comentar a los jugadores que manden la posición de sus barcos.
-    	
-        ActorRef actor2 = getContext().actorOf(Props.create(Jugador.class), "greeter");
-        actor2.tell(new Movimiento(new Coordenada(0, 0)), getSelf());
+    	this.bombo = new Bombo();
     }
 
     @Override
     public void onReceive(Object o) {
-    	if (o instanceof Barcos) {
-    	
-    		// Recibo mensaje de posicionamiento de barcos.
-    		
-    	} else if (o instanceof Movimiento) {
-    		// Recibo movimiento en el tablero.
-        	Movimiento msg = (Movimiento) o;
-        	log.info(msg.toString());
-        	waitPing();
-            getSender().tell(new Movimiento(new Coordenada(0, 0)), getSelf());
-        } else {
-            unhandled(o);
-        }
+    	;
     }
-    
-    private void waitPing() {
-    	try {
-    		Thread.sleep(1500);
-    	} catch (InterruptedException e) {
-    		;
-    	}
-    }
-    
+        
     @Override 
     public void unhandled(Object o) {
     	log.error("Message not registered");
