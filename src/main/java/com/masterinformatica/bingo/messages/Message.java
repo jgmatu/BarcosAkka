@@ -9,6 +9,6 @@ package com.masterinformatica.bingo.messages;
  */
 public class Message {
 	
-    public static enum value {LINEA, BINGO};
+    public static enum value {LISTO, LINEA, BINGO};
     
 }

@@ -20,18 +20,13 @@ public class Main {
 	public static ActorRef Jugador2;
 	public static ActorRef Jugador3;
 	public static ActorRef Manager1;
-	
-	
-	
-	
+
 	static public class Jugador extends UntypedActor {
 		
 		//Mensajes
 		public enum msj {LISTO, LINEA, BINGO};
-		
 
 		private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-		
 		private Carton carton;
 		
 	    @Override
@@ -50,7 +45,6 @@ public class Main {
 	        }else{
 	            unhandled(message);
 	        }
-	    	
 	    }
 	    
 	    @Override 
@@ -59,19 +53,14 @@ public class Main {
 	    }
 	    
 	}
-	
-	
-	
+
 	static public class Manager extends UntypedActor {
 		
 		//Mensajes
 		public enum msj {JUGADOR_LISTO};
-		
 		//Lista de Jugadores
 		private List<ActorRef> Jugadores;
-
 		private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-
 		private Bombo bombo;
 		
 	    @Override
@@ -85,9 +74,8 @@ public class Main {
 
 	    @Override
 	    public void onReceive(Object message)  throws Exception{
-
-	    	log.info("[Manager '{}'] ha recibido el mensaje: \"{}\".", getSelf().toString(), message);
 	    	
+	    	log.info("[Manager '{}'] ha recibido el mensaje: \"{}\".", getSelf().toString(), message);
 	    	//El Manager recibirá in LISTO de todos los jugadores y los agrega a la lista
 	        if (message == Manager.msj.JUGADOR_LISTO) {
 	        	Jugadores.add(getSender());
@@ -96,7 +84,6 @@ public class Main {
                 	Thread.sleep(3500);
                 	System.err.println("Hay jugadores para empezar");
                 	//Si hay mas de un jugador empiece a cantar los números
-	
                 }
 
 	            }else{
@@ -130,6 +117,5 @@ public class Main {
         Jugador3.tell(Jugador.msj.LISTO, ActorRef.noSender());
         
         akka.Main.main(new String[]{});
-    }
-    
+    } 
 }
