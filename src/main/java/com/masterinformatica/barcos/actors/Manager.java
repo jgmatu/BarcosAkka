@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.masterinformatica.bingo.entities.Bombo;
+import com.masterinformatica.bingo.entities.ExceptionBombo;
+
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
@@ -32,18 +34,37 @@ public class Manager extends UntypedActor {
 			this.jugadores.add(jugador);
 		}		
 
+		
+		
 		/**
-		 * TODO:
-		 *  ¿Donde metemos esto? :/
-		 *  Hay que pararlo si se grita bingo...
+		 * TODO: Podemos implementar un thread que haga el trabajo
+		 * el master debe saber hablar con el thread por un objeto 
+		 * compartido con su hilo... El bombo..
 		 */
-		for (;;) {
-	    	Number numb = this.bombo.generate();
-	    	for (ActorRef jugador : jugadores) {
-	    		jugador.tell(numb, getSelf());
-	    	}			
-		}
-
+		new Thread() {
+			@Override
+			public void run() {
+				/**
+				 * TODO:
+				 *  ¿Donde metemos esto? :/
+				 *  Hay que pararlo si se grita bingo...
+				 *  debe generar números aleatorios cada x tiempo.
+				 */
+				try {
+					for (;;) {
+					    Number numb = bombo.generate();				
+				    	for (ActorRef jugador : jugadores) {
+				    		jugador.tell(numb, getSelf());
+				    		Thread.sleep(1000);
+				    	}			
+					}
+				} catch (ExceptionBombo e) {
+					System.err.println("Bombo vacío, acabar juego!");
+				} catch (InterruptedException e) {
+					System.err.println("Interrumped thread sleep...");
+				}
+			}
+		}.start();
 	}
 
 	@Override
@@ -59,9 +80,9 @@ public class Manager extends UntypedActor {
 				
 			case LINEA:
 				break;
+				
 			case JUGADOR_LISTO:
 				break;
-				
 			default:
 				// error...
 			}

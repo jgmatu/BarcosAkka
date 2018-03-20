@@ -25,17 +25,18 @@ public class Bombo {
 		}
 	}
 	
-	public Number generate() {
-		Number number = null;
-		
-		while (number == null && !this.empty()) {
+	public Number generate() throws ExceptionBombo {
+		if (this.empty()) {
+			throw new ExceptionBombo();
+		}
+				
+		for (;;) {
 			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS) + 1;
 			if (this.numbers[numb]) {
-				number = new Number(numb);
 				this.numbers[numb] = false;
+				return new Number(numb);
 			}
 		}
-		return number;
 	}
 	
 	private boolean empty() {
