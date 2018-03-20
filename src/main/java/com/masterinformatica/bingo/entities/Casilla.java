@@ -13,10 +13,17 @@ public class Casilla {
 		this.state = false;
 	}
 	
+	public void mark() {
+		this.state = true;
+	}
+	
 	public boolean isMarked() {
 		return this.state;
 	}
 	
+	public boolean isCasilla(int number) {
+		return this.number == number;
+	}
 	
 	@Override
 	public String toString() {

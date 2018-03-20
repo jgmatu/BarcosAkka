@@ -1,6 +1,7 @@
 package com.masterinformatica.bingo.entities;
 
 import java.util.Random;
+import com.masterinformatica.bingo.messages.Number;
 
 public class Carton {
 
@@ -43,6 +44,17 @@ public class Carton {
 			}
 		}
 		return true;
+	}
+	
+	public void mark(Number numb) {
+		for (int i = 0; i < ROWS; ++i) {
+			for (int j = 0; j < COLS; ++j) {
+				Casilla casilla = this.casillas[i * COLS + j];
+				if (casilla.isCasilla(numb.getValue())) {
+					casilla.mark();					
+				}
+			}
+		}
 	}
 	
 	@Override

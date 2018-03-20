@@ -14,7 +14,7 @@ public class Number {
 		this.number = number;
 	}
 	
-	public int getNumber() {
+	public int getValue() {
 		return this.number;
 	}
 }
