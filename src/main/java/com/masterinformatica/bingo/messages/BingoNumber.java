@@ -6,11 +6,11 @@ package com.masterinformatica.bingo.messages;
  * @author javi, jonathan
  *
  */
-public class Number {
+public class BingoNumber {
 	
 	private int number;
 	
-	public Number(int number) {
+	public BingoNumber(int number) {
 		this.number = number;
 	}
 	

@@ -1,7 +1,7 @@
 package com.masterinformatica.bingo.entities;
 
 import java.util.Random;
-import com.masterinformatica.bingo.messages.Number;
+import com.masterinformatica.bingo.messages.BingoNumber;
 
 public class Carton {
 
@@ -30,8 +30,8 @@ public class Carton {
 		boolean inserted = false;
 
 		do {
-			int number = rand.nextInt(Bombo.MAX_NUMBERS) + 1;
-			if (!contains(number)) {
+			int number = rand.nextInt(Bombo.MAX_NUMBERS);
+			if (!contains(number)) {				
 				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);															
 				inserted = true;
 			}
@@ -39,12 +39,12 @@ public class Carton {
 	}
 	
 	private boolean contains(int numb) {
-		for (Casilla casilla: this.casillas) {
+		for (Casilla casilla : this.casillas) {
 			if (casilla != null && casilla.getValue() == numb) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean isLinea() {	
@@ -89,7 +89,7 @@ public class Carton {
 		return true;
 	}
 	
-	public void mark(Number numb) {
+	public void mark(BingoNumber numb) {
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
 				Casilla casilla = this.casillas[i * COLS + j];

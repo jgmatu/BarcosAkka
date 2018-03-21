@@ -1,7 +1,7 @@
 package com.masterinformatica.bingo.actors;
 
 import com.masterinformatica.bingo.entities.Carton;
-import com.masterinformatica.bingo.messages.Number;
+import com.masterinformatica.bingo.messages.BingoNumber;
 import com.masterinformatica.bingo.messages.BingoMessage;
 import com.masterinformatica.bingo.messages.BingoMessage.Value;
 
@@ -9,34 +9,19 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
-
-public class Jugador extends UntypedActor {
+public class Player extends UntypedActor {
 	
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 	private Carton carton;
-	private String name;
-	
-	public Jugador() {
-		this.name = "";
-		System.out.println("Jugador creado: " + this.name);		
-	}
-	
-	public Jugador(String name) {
-		this.name = name;
 
-		System.out.println("Jugador creado: " + this.name);
-	}
-	
-    @Override
-    public void preStart() {
+	public Player() {
     	this.carton = new Carton();
-    }
-
+	}
+	
     @Override
-    public void onReceive(Object message)  throws Exception{
-    	
-    	if (message instanceof Number) {
-    		Number numb = (Number) message;
+    public void onReceive(Object message)  throws Exception{    	
+    	if (message instanceof BingoNumber) {
+    		BingoNumber numb = (BingoNumber) message;
     	
     		this.carton.mark(numb);
     		

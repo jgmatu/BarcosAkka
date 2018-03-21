@@ -2,34 +2,32 @@ package com.masterinformatica.bingo.actors;
 
 import com.masterinformatica.bingo.entities.Bombo;
 import com.masterinformatica.bingo.entities.ExceptionBombo;
-import com.masterinformatica.bingo.messages.Number;
+import com.masterinformatica.bingo.messages.BingoNumber;
 import akka.actor.UntypedActor;
 
 public class Diller extends UntypedActor {
 
 	private Bombo bombo;
-	
-	@Override
-	public void preStart() {
-		System.out.println("Bombo running!");
-		this.bombo = new Bombo();
+
+	public Diller() {
+		this.bombo = new Bombo();		
 	}
 	
 	@Override
 	public void onReceive(Object message) throws Exception {
-		if (message instanceof Number) {
+		if (message instanceof BingoNumber) {
 			generateNumber();
 		}
 	}
 	
 	private void generateNumber() {
 		try {
+			
 			System.out.println("Bombo generate number!");
-			Number numb = bombo.generate();		
-
+			BingoNumber numb = bombo.generate();		
 			Thread.sleep(1000);
 		    getSender().tell(numb, getSelf());
-		    System.out.println("Number send!");
+		    
 		} catch (ExceptionBombo e) {
 			System.err.println("Bombo vacío, acabar juego!");
 		} catch (InterruptedException e) {

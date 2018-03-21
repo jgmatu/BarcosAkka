@@ -1,7 +1,7 @@
 package com.masterinformatica.bingo.entities;
 
 import java.util.Random;
-import com.masterinformatica.bingo.messages.Number;
+import com.masterinformatica.bingo.messages.BingoNumber;
 
 /**
  * Esta clase contiene el bombo genera un numero aleatorio
@@ -11,7 +11,7 @@ import com.masterinformatica.bingo.messages.Number;
  */
 public class Bombo {
 
-	public static final int MAX_NUMBERS = 20 + 1;
+	public static final int MAX_NUMBERS = 20;
 	
 	private boolean numbers[]; 
 	private Random seed;
@@ -25,7 +25,7 @@ public class Bombo {
 		}
 	}
 	
-	public Number generate() throws ExceptionBombo {
+	public BingoNumber generate() throws ExceptionBombo {
 		if (this.empty()) {
 			throw new ExceptionBombo();
 		}
@@ -35,7 +35,7 @@ public class Bombo {
 			
 			if (this.numbers[numb]) {
 				this.numbers[numb] = false;
-				return new Number(numb);
+				return new BingoNumber(numb);
 			}
 		}
 	}
