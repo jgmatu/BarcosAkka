@@ -17,4 +17,9 @@ public class Number {
 	public int getValue() {
 		return this.number;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%d", this.number);
+	}
 }

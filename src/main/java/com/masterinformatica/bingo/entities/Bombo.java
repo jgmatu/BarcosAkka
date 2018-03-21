@@ -31,7 +31,7 @@ public class Bombo {
 		}
 				
 		for (;;) {
-			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS) + 1;
+			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS);
 			if (this.numbers[numb]) {
 				this.numbers[numb] = false;
 				return new Number(numb);

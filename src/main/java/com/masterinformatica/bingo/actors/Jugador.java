@@ -1,4 +1,4 @@
-package com.masterinformatica.barcos.actors;
+package com.masterinformatica.bingo.actors;
 
 import com.masterinformatica.bingo.entities.Carton;
 import com.masterinformatica.bingo.messages.Number;
@@ -16,8 +16,14 @@ public class Jugador extends UntypedActor {
 	private Carton carton;
 	private String name;
 	
+	public Jugador() {
+		this.name = "";
+		System.out.println("Jugador creado: " + this.name);		
+	}
+	
 	public Jugador(String name) {
 		this.name = name;
+
 		System.out.println("Jugador creado: " + this.name);
 	}
 	
@@ -43,6 +49,7 @@ public class Jugador extends UntypedActor {
     			BingoMessage msgLinea = new BingoMessage(Value.BINGO);
         		getSender().tell(msgLinea, getSelf());    			    			
     		}
+    		System.out.println("Number received!!!");
     		
     	} else {
             unhandled(message);

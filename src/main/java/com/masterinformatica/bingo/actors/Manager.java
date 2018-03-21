@@ -1,4 +1,4 @@
-package com.masterinformatica.barcos.actors;
+package com.masterinformatica.bingo.actors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,9 @@ import com.masterinformatica.bingo.messages.Number;
 public class Manager extends UntypedActor {
 
 	private static final int NUM_JUGADORES = 10;
+	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	private List<ActorRef> jugadores;
-
-	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 	private Bombo bombo;
 
 	@Override
@@ -30,11 +29,10 @@ public class Manager extends UntypedActor {
 		this.jugadores = new ArrayList<>();
 
 		for (int i = 0; i < NUM_JUGADORES; ++i) {
-			ActorRef jugador = getContext().actorOf(Props.create(Jugador.class), "NameJugador");
+			ActorRef jugador = getContext().actorOf(Props.create(Jugador.class));
 			this.jugadores.add(jugador);
 		}		
 
-		
 		
 		/**
 		 * TODO: Podemos implementar un thread que haga el trabajo
@@ -44,6 +42,7 @@ public class Manager extends UntypedActor {
 		new Thread() {
 			@Override
 			public void run() {
+				System.out.println("Bombo running!");
 				/**
 				 * TODO:
 				 *  ¿Donde metemos esto? :/
@@ -57,6 +56,7 @@ public class Manager extends UntypedActor {
 				    		jugador.tell(numb, getSelf());
 				    		Thread.sleep(1000);
 				    	}			
+				    	System.out.println("Number send!");
 					}
 				} catch (ExceptionBombo e) {
 					System.err.println("Bombo vacío, acabar juego!");
@@ -83,6 +83,7 @@ public class Manager extends UntypedActor {
 				
 			case JUGADOR_LISTO:
 				break;
+	
 			default:
 				// error...
 			}

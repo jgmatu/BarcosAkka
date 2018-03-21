@@ -1,6 +1,6 @@
 package com.masterinformatica.bingo.main;
 
-import com.masterinformatica.barcos.actors.Manager;
+import com.masterinformatica.bingo.actors.Manager;
 
 public class Main {
 	
