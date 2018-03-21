@@ -22,12 +22,9 @@ public class Diller extends UntypedActor {
 	
 	private void generateNumber() {
 		try {
-			
-			System.out.println("Bombo generate number!");
 			BingoNumber numb = bombo.generate();		
 			Thread.sleep(1000);
-		    getSender().tell(numb, getSelf());
-		    
+		    getSender().tell(numb, getSelf());		    
 		} catch (ExceptionBombo e) {
 			System.err.println("Bombo vacío, acabar juego!");
 		} catch (InterruptedException e) {

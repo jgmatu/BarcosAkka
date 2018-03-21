@@ -5,7 +5,7 @@ import com.masterinformatica.bingo.messages.BingoNumber;
 
 /**
  * Esta clase contiene el bombo genera un numero aleatorio
- * entre 0..50 que no haya salido antes...
+ * entre 0..N-1 que no haya salido antes...
  * @author javi y jonathan.
  *
  */

@@ -9,7 +9,7 @@ package com.masterinformatica.bingo.messages;
  */
 public class BingoMessage {
 	
-    public static enum Value {JUGADOR_LISTO, LINEA, BINGO};
+    public static enum Value {LINEA, BINGO};
     
     private Value type;
     

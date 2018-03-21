@@ -22,6 +22,7 @@ public class Carton {
 			for (int j = 0; j < COLS; ++j) {
 				insertNumber(i, j);
 			}
+			this.lineas[i] = false;
 		}		
 	}
 	
@@ -50,7 +51,7 @@ public class Carton {
 	public boolean isLinea() {	
 		for (int i = 0; i < ROWS; i++) {
 			boolean[] cols = getLineMarked(i);
-			if (isColsLine(cols)) {
+			if (!this.lineas[i] && isColsLine(cols)) {
 				this.lineas[i] = true;
 				return true;
 			}

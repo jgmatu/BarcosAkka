@@ -58,12 +58,8 @@ public class Manager extends UntypedActor {
 			System.err.println("LINEA!!");			
 			break;
 			
-		case JUGADOR_LISTO:
-			System.err.println("LISTO!!");			
-			break;
-			
 		default:
-			// error...
+			System.err.println("Error message process game...");
 		}
 	}
 	
@@ -71,7 +67,7 @@ public class Manager extends UntypedActor {
 		for (ActorRef player : this.players) {
 			player.tell(numb, getSelf());
 		}		
-		diller.tell(new BingoNumber(0), getSelf());
+		diller.tell(new BingoNumber(-1), getSelf());
 	}
 
 	@Override
