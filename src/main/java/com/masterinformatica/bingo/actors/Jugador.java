@@ -49,8 +49,8 @@ public class Jugador extends UntypedActor {
     			BingoMessage msgLinea = new BingoMessage(Value.BINGO);
         		getSender().tell(msgLinea, getSelf());    			    			
     		}
-    		System.out.println("Number received!!!");
-    		
+    		System.out.println(String.format("Number received!!! : %d", numb.getValue()));    		
+    		System.out.println(this.carton.toString());
     	} else {
             unhandled(message);
     	}

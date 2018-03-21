@@ -5,34 +5,77 @@ import com.masterinformatica.bingo.messages.Number;
 
 public class Carton {
 
-	private static final int ROWS = 4;
-	private static final int COLS = 4;
+	private static final int ROWS = 3;
+	private static final int COLS = 3;
 	
 	private Casilla[] casillas;
+	private boolean[] lineas;
 	
 	public Carton() {
+		this.lineas = new boolean[ROWS];
 		this.casillas = new Casilla[ROWS * COLS];
 		init();
 	}
 	
-	private void init() {
-		Random rand = new Random();
-		
+	private void init() {		
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				int number = rand.nextInt(Bombo.MAX_NUMBERS) + 1;
-				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);				
+				insertNumber(i, j);
 			}
 		}		
 	}
 	
-	public boolean isLinea() {		
-		for (int i = 0; i < ROWS; i++) {
-			if (!this.casillas[i * ROWS].isMarked()) {
+	private void insertNumber(int i, int j) {
+		Random rand = new Random();
+		boolean inserted = false;
+
+		do {
+			int number = rand.nextInt(Bombo.MAX_NUMBERS) + 1;
+			if (!contains(number)) {
+				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);															
+				inserted = true;
+			}
+		} while (!inserted);
+	}
+	
+	private boolean contains(int numb) {
+		for (Casilla casilla: this.casillas) {
+			if (casilla != null && casilla.getValue() == numb) {
 				return false;
 			}
 		}
 		return true;
+	}
+	
+	public boolean isLinea() {	
+		for (int i = 0; i < ROWS; i++) {
+			boolean[] cols = getLineMarked(i);
+			if (isColsLine(cols)) {
+				this.lineas[i] = true;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isColsLine(boolean[] cols) {
+		for (int k = 0; k < COLS; k++) {
+			if (!cols[k]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean[] getLineMarked(int row) {
+		boolean[] cols = new boolean[COLS];
+
+		for (int j = 0; j < COLS; ++j) {
+			if (this.casillas[row * ROWS + j].isMarked()) {
+				cols[j] = true;
+			}				
+		}
+		return cols;
 	}
 	
 	public boolean isBingo() {

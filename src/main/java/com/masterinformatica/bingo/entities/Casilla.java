@@ -25,6 +25,10 @@ public class Casilla {
 		return this.number == number;
 	}
 	
+	public int  getValue() {
+		return this.number;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format(" %s %d %s ", this.coordenada.toString(), this.number, (this.state) ? "marcada" : "vacia");

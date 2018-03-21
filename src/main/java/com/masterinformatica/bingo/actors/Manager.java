@@ -3,9 +3,6 @@ package com.masterinformatica.bingo.actors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.masterinformatica.bingo.entities.Bombo;
-import com.masterinformatica.bingo.entities.ExceptionBombo;
-
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
@@ -17,77 +14,64 @@ import com.masterinformatica.bingo.messages.Number;
 
 public class Manager extends UntypedActor {
 
-	private static final int NUM_JUGADORES = 10;
+	private static final int NUM_JUGADORES = 1;
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	private List<ActorRef> jugadores;
-	private Bombo bombo;
-
+	private ActorRef diller;
+	
 	@Override
 	public void preStart() {
-		this.bombo = new Bombo();
 		this.jugadores = new ArrayList<>();
 
 		for (int i = 0; i < NUM_JUGADORES; ++i) {
 			ActorRef jugador = getContext().actorOf(Props.create(Jugador.class));
 			this.jugadores.add(jugador);
-		}		
+		}	
 
-		
-		/**
-		 * TODO: Podemos implementar un thread que haga el trabajo
-		 * el master debe saber hablar con el thread por un objeto 
-		 * compartido con su hilo... El bombo..
-		 */
-		new Thread() {
-			@Override
-			public void run() {
-				System.out.println("Bombo running!");
-				/**
-				 * TODO:
-				 *  ¿Donde metemos esto? :/
-				 *  Hay que pararlo si se grita bingo...
-				 *  debe generar números aleatorios cada x tiempo.
-				 */
-				try {
-					for (;;) {
-					    Number numb = bombo.generate();				
-				    	for (ActorRef jugador : jugadores) {
-				    		jugador.tell(numb, getSelf());
-				    		Thread.sleep(1000);
-				    	}			
-				    	System.out.println("Number send!");
-					}
-				} catch (ExceptionBombo e) {
-					System.err.println("Bombo vacío, acabar juego!");
-				} catch (InterruptedException e) {
-					System.err.println("Interrumped thread sleep...");
-				}
-			}
-		}.start();
+		this.diller = getContext().actorOf(Props.create(Diller.class));
+		this.diller.tell(new Number(-1), getSelf());
 	}
-
+	
 	@Override
 	public void onReceive(Object message) throws Exception {
 
 		if (message instanceof BingoMessage) {
 			BingoMessage msg = (BingoMessage) message;
-
-			BingoMessage.Value type = msg.getValue();
-			switch (type) {
-			case BINGO:
-				break;
-				
-			case LINEA:
-				break;
-				
-			case JUGADOR_LISTO:
-				break;
-	
-			default:
-				// error...
-			}
+			processGame(msg);
 		}
+		
+		if (message instanceof Number) {
+			Number numb = (Number) message;
+			sendNumber(numb);
+		}
+	}
+	
+	private void processGame(BingoMessage message) {		
+		BingoMessage.Value type = message.getValue();
+		
+		switch (type) {
+		case BINGO:
+			System.err.println("BINGO!!");
+			break;		
+		case LINEA:
+			System.err.println("LINEA!!");			
+			break;
+			
+		case JUGADOR_LISTO:
+			System.err.println("LISTO!!");			
+			break;
+			
+		default:
+			// error...
+		}
+	}
+	
+	private void sendNumber(Number numb) {
+		for (ActorRef jugador : this.jugadores) {
+			jugador.tell(numb, getSelf());
+		}		
+		diller.tell(new Number(0), getSelf());
 	}
 
 	@Override

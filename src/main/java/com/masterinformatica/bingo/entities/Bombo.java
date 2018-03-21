@@ -6,12 +6,12 @@ import com.masterinformatica.bingo.messages.Number;
 /**
  * Esta clase contiene el bombo genera un numero aleatorio
  * entre 0..50 que no haya salido antes...
- * @author javi
+ * @author javi y jonathan.
  *
  */
 public class Bombo {
 
-	public static final int MAX_NUMBERS = 100;
+	public static final int MAX_NUMBERS = 20 + 1;
 	
 	private boolean numbers[]; 
 	private Random seed;
@@ -32,6 +32,7 @@ public class Bombo {
 				
 		for (;;) {
 			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS);
+			
 			if (this.numbers[numb]) {
 				this.numbers[numb] = false;
 				return new Number(numb);
