@@ -1,6 +1,8 @@
 package com.masterinformatica.bingo.entities;
 
 import java.util.Random;
+
+import com.masterinformatica.bingo.exceptions.ExceptionBombo;
 import com.masterinformatica.bingo.messages.BingoNumber;
 
 /**
@@ -11,7 +13,7 @@ import com.masterinformatica.bingo.messages.BingoNumber;
  */
 public class Bombo {
 
-	public static final int MAX_NUMBERS = 20;
+	public static final int MAX_NUMBERS = 100;
 	
 	private boolean numbers[]; 
 	private Random seed;

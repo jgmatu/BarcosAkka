@@ -32,7 +32,7 @@ public class Carton {
 
 		do {
 			int number = rand.nextInt(Bombo.MAX_NUMBERS);
-			if (!contains(number)) {				
+			if (!this.contains(number)) {				
 				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);															
 				inserted = true;
 			}
@@ -50,33 +50,26 @@ public class Carton {
 	
 	public boolean isLinea() {	
 		for (int i = 0; i < ROWS; i++) {
+<<<<<<< HEAD
 			boolean[] cols = getLineMarked(i);
 			if (!this.lineas[i] && isColsLine(cols)) {
+=======
+			if (!this.lineas[i] && this.isLineMarked(i)) {
+>>>>>>> 841999c3a7aad77c1cdf30de25b57932c6623809
 				this.lineas[i] = true;
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	private boolean isColsLine(boolean[] cols) {
-		for (int k = 0; k < COLS; k++) {
-			if (!cols[k]) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	private boolean[] getLineMarked(int row) {
-		boolean[] cols = new boolean[COLS];
-
+		
+	private boolean isLineMarked(int row) {
 		for (int j = 0; j < COLS; ++j) {
-			if (this.casillas[row * ROWS + j].isMarked()) {
-				cols[j] = true;
+			if (!this.casillas[row * ROWS + j].isMarked()) {
+				return false;
 			}				
 		}
-		return cols;
+		return true;
 	}
 	
 	public boolean isBingo() {
