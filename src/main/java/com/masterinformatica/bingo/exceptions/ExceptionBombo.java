@@ -1,4 +1,4 @@
-package com.masterinformatica.bingo.entities;
+package com.masterinformatica.bingo.exceptions;
 
 public class ExceptionBombo extends Exception {
 

@@ -6,25 +6,24 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
+import com.masterinformatica.bingo.messages.BingoExit;
 import com.masterinformatica.bingo.messages.BingoMessage;
+import com.masterinformatica.bingo.messages.BingoMessage.Value;
 import com.masterinformatica.bingo.messages.BingoNumber;
-
+import com.masterinformatica.bingo.players.BingoPlayer;
+import com.masterinformatica.bingo.players.BingoPlayers;
 
 public class Manager extends UntypedActor {
 
-	private static final int NUM_JUGADORES = 1;
+	public static final int NUM_JUGADORES = 5;
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-	private ActorRef[] players;
+	
+	private BingoPlayers players;
 	private ActorRef diller;
 
 	public Manager() {
-		this.players = new ActorRef[NUM_JUGADORES];
-
-		for (int i = 0; i < NUM_JUGADORES; ++i) {
-			ActorRef jugador = getContext().actorOf(Props.create(Player.class));
-			this.players[i] = jugador;
-		}
+		this.players = new BingoPlayers(this);
 		this.diller = getContext().actorOf(Props.create(Diller.class));
 	}
 	
@@ -38,36 +37,64 @@ public class Manager extends UntypedActor {
 				
 		if (message instanceof BingoMessage) {
 			BingoMessage msg = (BingoMessage) message;
-			processGame(msg);
-		}
+			proccessGameEvent(msg);
+		} 
 		
 		if (message instanceof BingoNumber) {
 			BingoNumber numb = (BingoNumber) message;
-			sendNumber(numb);
+			setNextBall(numb);
+		}
+		
+		if (message instanceof BingoExit) {
+			BingoExit exit = (BingoExit) message;
+			inesperatedExit(exit);
 		}
 	}
 	
-	private void processGame(BingoMessage message) {		
+	private void setNextBall(BingoNumber numb) {
+		players.sendNumber(this, numb);
+		diller.tell(new BingoNumber(-1), getSelf());		
+	}
+	
+	private void proccessGameEvent(BingoMessage message) {		
 		BingoMessage.Value type = message.getValue();
 		
-		switch (type) {
-		case BINGO:
-			System.err.println("BINGO!!");
-			break;		
-		case LINEA:
-			System.err.println("LINEA!!");			
-			break;
-			
-		default:
-			System.err.println("Error message process game...");
+		if (type == Value.BINGO) {
+			showResultsGame();			
+			closeSystem(new BingoExit(0));
+		} 
+		
+		if (type == Value.LINEA) {
+			players.setScoreBingo(new BingoPlayer(getSender()));			
 		}
+		
+	}
+
+	private void inesperatedExit(BingoExit exit) {
+		if (exit.getExitValue() < 0) {
+			System.err.println("Bombo Vacío...");
+		} 
+		closeSystem(new BingoExit(-1));
 	}
 	
-	private void sendNumber(BingoNumber numb) {
-		for (ActorRef player : this.players) {
-			player.tell(numb, getSelf());
-		}		
-		diller.tell(new BingoNumber(-1), getSelf());
+	private void showResultsGame() {
+		int[] scores = this.players.getResultsGame();
+		int max = Integer.MIN_VALUE, idx = -1;
+		
+		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
+			System.out.println(String.format("\nPlayer : %d score %d\n", i, scores[i]));
+			if (scores[i] > max) {
+				max = scores[i];
+				idx = i;
+			}
+		}
+		System.out.println(String.format("Gana Jugador : %d\n", idx));
+ 	}
+	
+	private void closeSystem(BingoExit exit) {
+		this.players.sendFinalize(this, exit);
+		this.diller.tell(exit, getSelf());
+		getContext().stop(getSelf());
 	}
 
 	@Override
@@ -75,19 +102,3 @@ public class Manager extends UntypedActor {
 		log.error("Message not registered");
 	}
 }
-
-/*
- * public class Manager extends UntypedActor {
- * 
- * private final LoggingAdapter log = Logging.getLogger(getContext().system(),
- * this);
- * 
- * private Bombo bombo;
- * 
- * @Override public void preStart() { this.bombo = new Bombo(); }
- * 
- * @Override public void onReceive(Object o) { ; }
- * 
- * @Override public void unhandled(Object o) {
- * log.error("Message not registered"); } }
- */
