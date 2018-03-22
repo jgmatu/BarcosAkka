@@ -24,18 +24,15 @@ public class Player extends UntypedActor {
     		BingoNumber numb = (BingoNumber) message;
     	
     		this.carton.mark(numb);
-    		
-    		if (this.carton.isLinea()) {
-    			BingoMessage msgLinea = new BingoMessage(Value.LINEA);
-        		getSender().tell(msgLinea, getSelf());    			
-    		}
-    		
+
     		if (this.carton.isBingo()) {
     			BingoMessage msgLinea = new BingoMessage(Value.BINGO);
         		getSender().tell(msgLinea, getSelf());    			    			
+    		} else if (this.carton.isLinea()) {
+    			BingoMessage msgLinea = new BingoMessage(Value.LINEA);
+        		getSender().tell(msgLinea, getSelf());    			
     		}
-    		System.out.println(String.format("Number received!!! : %d", numb.getValue()));    		
-    		System.out.println(this.carton.toString());
+    		System.err.println(this.carton.toString());
     	} else {
             unhandled(message);
     	}
