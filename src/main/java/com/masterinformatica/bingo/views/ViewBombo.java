@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Principal extends JPanel{
+public class ViewBombo extends JPanel{
 	
 	int[][] matrizGrafo;
     int number = 0;

@@ -59,18 +59,6 @@ public class Manager extends UntypedActor {
 	private void proccessGameEvent(BingoMessage message) {		
 		BingoMessage.Value type = message.getValue();
 		
-<<<<<<< HEAD
-		switch (type) {
-		case BINGO:
-			System.err.println("BINGO!!");
-			break;		
-		case LINEA:
-			System.err.println("LINEA!!");			
-			break;
-			
-		default:
-			System.err.println("Error message process game...");
-=======
 		if (type == Value.BINGO) {
 			showResultsGame();			
 			closeSystem(new BingoExit(0));
@@ -78,7 +66,6 @@ public class Manager extends UntypedActor {
 		
 		if (type == Value.LINEA) {
 			players.setScoreBingo(new BingoPlayer(getSender()));			
->>>>>>> 841999c3a7aad77c1cdf30de25b57932c6623809
 		}
 		
 	}
@@ -90,13 +77,6 @@ public class Manager extends UntypedActor {
 		closeSystem(new BingoExit(-1));
 	}
 	
-<<<<<<< HEAD
-	private void sendNumber(BingoNumber numb) {
-		for (ActorRef player : this.players) {
-			player.tell(numb, getSelf());
-		}		
-		diller.tell(new BingoNumber(-1), getSelf());
-=======
 	private void showResultsGame() {
 		int[] scores = this.players.getResultsGame();
 		int max = Integer.MIN_VALUE, idx = -1;
@@ -115,7 +95,6 @@ public class Manager extends UntypedActor {
 		this.players.sendFinalize(this, exit);
 		this.diller.tell(exit, getSelf());
 		getContext().stop(getSelf());
->>>>>>> 841999c3a7aad77c1cdf30de25b57932c6623809
 	}
 
 	@Override

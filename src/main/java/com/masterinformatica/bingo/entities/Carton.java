@@ -50,12 +50,7 @@ public class Carton {
 	
 	public boolean isLinea() {	
 		for (int i = 0; i < ROWS; i++) {
-<<<<<<< HEAD
-			boolean[] cols = getLineMarked(i);
-			if (!this.lineas[i] && isColsLine(cols)) {
-=======
 			if (!this.lineas[i] && this.isLineMarked(i)) {
->>>>>>> 841999c3a7aad77c1cdf30de25b57932c6623809
 				this.lineas[i] = true;
 				return true;
 			}

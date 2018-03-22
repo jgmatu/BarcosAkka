@@ -13,7 +13,7 @@ import com.masterinformatica.bingo.messages.BingoNumber;
  */
 public class Bombo {
 
-	public static final int MAX_NUMBERS = 100;
+	public static final int MAX_NUMBERS = 20;
 	
 	private boolean numbers[]; 
 	private Random seed;
@@ -64,9 +64,5 @@ public class Bombo {
 		}
 		return format.toString();
 	}
-	
-	public int getMaxNumber() {
-		return MAX_NUMBERS;
-	}
-	
+		
 }

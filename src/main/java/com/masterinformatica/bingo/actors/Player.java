@@ -23,23 +23,10 @@ public class Player extends UntypedActor {
     public void onReceive(Object message)  throws Exception{    	
     	if (message instanceof BingoNumber) {
     		BingoNumber numb = (BingoNumber) message;
-<<<<<<< HEAD
-    	
-    		this.carton.mark(numb);
 
-    		if (this.carton.isBingo()) {
-    			BingoMessage msgLinea = new BingoMessage(Value.BINGO);
-        		getSender().tell(msgLinea, getSelf());    			    			
-    		} else if (this.carton.isLinea()) {
-    			BingoMessage msgLinea = new BingoMessage(Value.LINEA);
-        		getSender().tell(msgLinea, getSelf());    			
-    		}
-    		System.err.println(this.carton.toString());
-=======
     		markNumber(numb);
     	} else if (message instanceof BingoExit) {
     		exitGame();
->>>>>>> 841999c3a7aad77c1cdf30de25b57932c6623809
     	} else {
             unhandled(message);
     	}
@@ -77,56 +64,3 @@ public class Player extends UntypedActor {
     }
         
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*public class Jugador extends UntypedActor {
-
-	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-	
-	private Carton carton;
-	
-    @Override
-    public void preStart() {
-    	this.carton = new Carton();
-    }
-
-    @Override
-    public void onReceive(Object o) {
-    	;
-    }
-    
-    @Override 
-    public void unhandled(Object o) {
-    	log.error("Message not registered");
-    }
-    
-}*/
-
-
