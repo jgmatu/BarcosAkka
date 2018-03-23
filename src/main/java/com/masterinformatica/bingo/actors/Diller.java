@@ -13,13 +13,13 @@ public class Diller extends UntypedActor {
 
 	private Bombo bombo;
 	JFrame frame = new JFrame("Bingo");
-	ViewBombo graWindow = new ViewBombo();
+	ViewBombo dillerWindow = new ViewBombo();
 	
 	public Diller() {
 		this.bombo = new Bombo();
 	
-        graWindow.setMaxNumber(Bombo.MAX_NUMBERS);
-        frame.add(graWindow);
+        dillerWindow.setMaxNumber(Bombo.MAX_NUMBERS);
+        frame.add(dillerWindow);
         frame.setSize(1000, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,8 +43,9 @@ public class Diller extends UntypedActor {
 			BingoNumber numb = bombo.generate();		
 			Thread.sleep(1000);
 			
-			graWindow.setNumberGenerate(numb.getValue(), true);
-			graWindow.repaint();
+			dillerWindow.setNumberGenerate(numb.getValue(), true);
+			dillerWindow.repaint();
+			
 			System.out.println(String.format("El: %d", numb.getValue()));
 		    getSender().tell(numb, getSelf());
 		    

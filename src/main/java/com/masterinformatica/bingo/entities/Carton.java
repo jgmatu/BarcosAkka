@@ -7,6 +7,7 @@ public class Carton {
 
 	private static final int ROWS = 3;
 	private static final int COLS = 3;
+	private int[][] paint = new int[ROWS][COLS];
 	
 	private Casilla[] casillas;
 	private boolean[] lineas;
@@ -35,6 +36,7 @@ public class Carton {
 			if (!this.contains(number)) {				
 				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);															
 				inserted = true;
+				paint[i][j] = number;
 			}
 		} while (!inserted);
 	}
@@ -102,4 +104,10 @@ public class Carton {
 		}
 		return format.toString();
 	}
+
+	
+	public int[][] getPaint() {
+		return paint;
+	}
+
 }

@@ -15,7 +15,7 @@ import com.masterinformatica.bingo.players.BingoPlayers;
 
 public class Manager extends UntypedActor {
 
-	public static final int NUM_JUGADORES = 5;
+	public static final int NUM_JUGADORES = 2;
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	
