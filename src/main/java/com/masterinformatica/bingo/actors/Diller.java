@@ -12,18 +12,21 @@ import com.masterinformatica.bingo.views.ViewBombo;
 public class Diller extends UntypedActor {
 
 	private Bombo bombo;
-	JFrame frame = new JFrame("Bingo");
-	ViewBombo dillerWindow = new ViewBombo();
+	private JFrame frame;
+	private ViewBombo dillerWindow;
 	
 	public Diller() {
-		this.bombo = new Bombo();
-	
+		bombo = new Bombo();
+
+		dillerWindow = new ViewBombo(bombo);
         dillerWindow.setMaxNumber(Bombo.MAX_NUMBERS);
+        
+        frame = new JFrame("Bingo");
         frame.add(dillerWindow);
         frame.setSize(1000, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+        
 	}
 	
 	@Override
@@ -40,14 +43,15 @@ public class Diller extends UntypedActor {
 	private void generateNumber() {
 		try {
 		
-			BingoNumber numb = bombo.generate();		
-			Thread.sleep(1000);
+			BingoNumber numb = this.bombo.generate();					
 			
-			dillerWindow.setNumberGenerate(numb.getValue(), true);
-			dillerWindow.repaint();
+			this.dillerWindow.setNumberGenerate(numb.getValue(), true);
+			this.dillerWindow.repaint();
 			
+			Thread.sleep(500);			
 			System.out.println(String.format("El: %d", numb.getValue()));
-		    getSender().tell(numb, getSelf());
+			Thread.sleep(500);
+			getSender().tell(numb, getSelf());
 		    
 		} catch (ExceptionBombo e) {
 		

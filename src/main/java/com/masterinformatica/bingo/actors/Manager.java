@@ -34,7 +34,6 @@ public class Manager extends UntypedActor {
 	
 	@Override
 	public void onReceive(Object message) throws Exception {
-				
 		if (message instanceof BingoMessage) {
 			BingoMessage msg = (BingoMessage) message;
 			proccessGameEvent(msg);
@@ -67,7 +66,6 @@ public class Manager extends UntypedActor {
 		if (type == Value.LINEA) {
 			players.setScoreBingo(new BingoPlayer(getSender()));			
 		}
-		
 	}
 
 	private void inesperatedExit(BingoExit exit) {
@@ -99,6 +97,6 @@ public class Manager extends UntypedActor {
 
 	@Override
 	public void unhandled(Object message) {
-		log.error("Message not registered");
+		this.log.error("Message not registered");
 	}
 }

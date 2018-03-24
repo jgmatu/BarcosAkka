@@ -17,18 +17,20 @@ public class Player extends UntypedActor {
 	
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 	private Carton carton;
-	JFrame frameJ = new JFrame("Player");
-	ViewPlayer playerWindow;
+	private JFrame frameJ;
+	private ViewPlayer playerWindow;
 
 	public Player() {
     	this.carton = new Carton();
     	
-    	playerWindow = new ViewPlayer(carton);
-        frameJ.add(playerWindow);
-        frameJ.setSize(200, 200);
-        frameJ.setLocationRelativeTo(null);
-        frameJ.setVisible(true);
-        frameJ.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	this.frameJ = new JFrame("Player");
+    	this.playerWindow = new ViewPlayer(carton);
+
+    	this.frameJ.add(playerWindow);
+        this.frameJ.setSize(200, 200);
+        this.frameJ.setLocationRelativeTo(null);
+        this.frameJ.setVisible(true);
+        this.frameJ.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
     @Override
@@ -38,8 +40,8 @@ public class Player extends UntypedActor {
 
     		markNumber(numb);
     		
-    		//playerWindow.setNumberGenerateP(numb.getValue(), true);
-    		//playerWindow.repaint();
+    		this.playerWindow.setNumberGenerateP(numb.getValue(), true);
+    		this.playerWindow.repaint();
     		
     	} else if (message instanceof BingoExit) {
     		exitGame();
@@ -63,20 +65,26 @@ public class Player extends UntypedActor {
     		System.out.println(this.carton.toString());    		
 		}    	
     }
-    
+
+    /**
+     * Cuidado puede ser que dos jugadores 
+     * tengan bimgo y solo gane el primero que
+     * informe al maestro. Bug.
+     */
     private void exitGame() {
     	if (this.carton.isBingo()) {
     		System.out.println("He ganado!");
     	} else {
     		System.out.println("He perdido...");
     	}
+    	this.
     	getContext().stop(getSelf());
     }
     
     
     @Override 
     public void unhandled(Object message) {
-    	log.error("Message not registered");
+    	this.log.error("Message not registered");
     }
         
 }

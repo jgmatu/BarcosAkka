@@ -2,13 +2,13 @@ package com.masterinformatica.bingo.entities;
 
 import java.util.Random;
 import com.masterinformatica.bingo.messages.BingoNumber;
+import com.masterinformatica.bingo.views.Painter;
 
-public class Carton {
+public class Carton implements Painter {
 
-	private static final int ROWS = 3;
-	private static final int COLS = 3;
-	private int[][] paint = new int[ROWS][COLS];
-	
+	public static final int ROWS = 3;
+	public static final int COLS = 3;
+		
 	private Casilla[] casillas;
 	private boolean[] lineas;
 	
@@ -36,7 +36,6 @@ public class Carton {
 			if (!this.contains(number)) {				
 				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);															
 				inserted = true;
-				paint[i][j] = number;
 			}
 		} while (!inserted);
 	}
@@ -107,6 +106,15 @@ public class Carton {
 
 	
 	public int[][] getPaint() {
+		int[][] paint = new int[ROWS][COLS];
+
+		for (int i = 0; i < ROWS; ++i) {
+			for (int j = 0; j < COLS; ++j) {
+				System.out.print(String.format(" %d ", this.casillas[i * ROWS + j].getValue()));
+				paint[i][j] = this.casillas[i * ROWS + j].getValue();				
+			}
+		}
+		System.out.println();
 		return paint;
 	}
 

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.masterinformatica.bingo.exceptions.ExceptionBombo;
 import com.masterinformatica.bingo.messages.BingoNumber;
+import com.masterinformatica.bingo.views.Painter;
 
 /**
  * Esta clase contiene el bombo genera un numero aleatorio
@@ -11,7 +12,7 @@ import com.masterinformatica.bingo.messages.BingoNumber;
  * @author javi y jonathan.
  *
  */
-public class Bombo {
+public class Bombo implements Painter {
 
 	public static final int MAX_NUMBERS = 100;
 	
@@ -63,6 +64,21 @@ public class Bombo {
 			}
 		}
 		return format.toString();
+	}
+
+	@Override
+	public int[][] getPaint() {
+		int rows = MAX_NUMBERS / 20;
+		int cols = MAX_NUMBERS / rows;
+		int[][] paint = new int[rows][cols];
+
+		int numb = 0;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				paint[i][j] = numb++;
+			}
+		}
+		return paint;
 	}
 		
 }
