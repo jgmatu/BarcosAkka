@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import com.masterinformatica.bingo.entities.Bombo;
 import com.masterinformatica.bingo.exceptions.ExceptionBombo;
+import com.masterinformatica.bingo.messages.BingoAck;
 import com.masterinformatica.bingo.messages.BingoExit;
 import com.masterinformatica.bingo.messages.BingoNumber;
 import akka.actor.UntypedActor;
@@ -26,7 +27,7 @@ public class Diller extends UntypedActor {
         frame.setSize(1000, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        frame.setResizable(false);
 	}
 	
 	@Override
@@ -36,6 +37,7 @@ public class Diller extends UntypedActor {
 		} 
 		
 		if (message instanceof BingoExit) {
+			System.err.println("Message exit!!");
 			exitGame();
 		}
 	}	
@@ -44,13 +46,11 @@ public class Diller extends UntypedActor {
 		try {
 		
 			BingoNumber numb = this.bombo.generate();					
-			
+			Thread.sleep(1000);			
+
 			this.dillerWindow.setNumberGenerate(numb.getValue(), true);
-			this.dillerWindow.repaint();
-			
-			Thread.sleep(500);			
+			this.dillerWindow.repaint();			
 			System.out.println(String.format("El: %d", numb.getValue()));
-			Thread.sleep(500);
 			getSender().tell(numb, getSelf());
 		    
 		} catch (ExceptionBombo e) {
@@ -58,14 +58,14 @@ public class Diller extends UntypedActor {
 			sendExitEmptyBombo();
 
 		} catch (InterruptedException e) {
-
-			System.err.println("Interrumped thread sleep...");		
-		
+			System.err.println("Interrumped thread sleep...");
 		}
 	}
 	
 	private void exitGame() {
-		System.out.println("Bombo cerrado acabó el juego...");
+		System.err.println("Bombo cerrado acabó el juego...");
+		frame.dispose();
+		getSender().tell(new BingoAck(), getSelf());
 		getContext().stop(getSelf());
 	}
 	

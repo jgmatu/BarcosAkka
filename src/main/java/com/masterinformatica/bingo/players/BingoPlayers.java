@@ -16,22 +16,30 @@ public class BingoPlayers {
 		this.players = new BingoPlayer[Manager.NUM_JUGADORES];
 
 		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
-			ActorRef jugador = manager.getContext().actorOf(Props.create(Player.class));
-			this.players[i] = new BingoPlayer(jugador);
+			ActorRef jugador = manager.getContext().actorOf(Props.create(Player.class, i));
+			this.players[i] = new BingoPlayer(jugador, i);
 		}
 	}
 	
-	public void setScoreBingo(BingoPlayer p) {
-		getBingoPlayer(p).setScoreBingo();
+	public void setScoreBingo(ActorRef actor) {
+		BingoPlayer player = getBingoPlayer(actor);
+
+		if (player != null) {
+			player.setScoreBingo();			
+		}
 	}
 	
-	public  void setScoreLine(BingoPlayer p) {
-		getBingoPlayer(p).setScoreLine();
+	public  void setScoreLine(ActorRef actor) {
+		BingoPlayer player = getBingoPlayer(actor);
+
+		if (player != null) {
+			player.setScoreLine();			
+		}
 	}
 	
-	private BingoPlayer getBingoPlayer(BingoPlayer player) {
+	private BingoPlayer getBingoPlayer(ActorRef actor) {
 		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
-			if (player.getActor() == this.players[i].getActor()) {
+			if (this.players[i].getActor() == actor) {
 				return this.players[i];
 			}
 		}
@@ -54,9 +62,30 @@ public class BingoPlayers {
 		return scores;
 	}
 
-	public void sendFinalize(Manager manager, BingoExit exit) {
+	public void sendFinalize(Manager manager, ActorRef winner) {
 		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
-			this.players[i].getActor().tell(exit, manager.getSelf());
+			if (this.players[i].getActor() == winner) {
+				this.players[i].getActor().tell(new BingoExit(1), manager.getSelf());				
+			} else {
+				this.players[i].getActor().tell(new BingoExit(0), manager.getSelf());								
+			}
 		}
 	}	
+	
+	public void setPlayerClosed(ActorRef actor) {
+		for (int i = 0; i < Manager.NUM_JUGADORES; i++) {
+			if (this.players[i].getActor() == actor) {
+				this.players[i].setClosed();
+			}
+		}
+	}
+	
+	public boolean isAllPlayersClosed() {
+		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
+			if (!this.players[i].isClosed()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

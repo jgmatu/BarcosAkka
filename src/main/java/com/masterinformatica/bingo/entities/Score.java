@@ -3,7 +3,7 @@ package com.masterinformatica.bingo.entities;
 public class Score {
 	
 	private static int SCORE_LINE = 0;
-	private static int SCORE_BINGO = 100;
+	private static int SCORE_BINGO = -1;
 	
 	private int score;
 	

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import com.masterinformatica.bingo.entities.Carton;
 import com.masterinformatica.bingo.messages.BingoNumber;
+import com.masterinformatica.bingo.messages.BingoAck;
 import com.masterinformatica.bingo.messages.BingoExit;
 import com.masterinformatica.bingo.messages.BingoMessage;
 import com.masterinformatica.bingo.messages.BingoMessage.Value;
@@ -19,18 +20,20 @@ public class Player extends UntypedActor {
 	private Carton carton;
 	private JFrame frameJ;
 	private ViewPlayer playerWindow;
+	private int id;
 
-	public Player() {
+	public Player(int id) {
     	this.carton = new Carton();
-    	
-    	this.frameJ = new JFrame("Player");
+    	this.id = id;
+    	this.frameJ = new JFrame("Player: " + id);
     	this.playerWindow = new ViewPlayer(carton);
 
     	this.frameJ.add(playerWindow);
-        this.frameJ.setSize(200, 200);
+        this.frameJ.setSize(Carton.COLS * 60, Carton.ROWS * 60);
         this.frameJ.setLocationRelativeTo(null);
         this.frameJ.setVisible(true);
         this.frameJ.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frameJ.setResizable(false);
 	}
 	
     @Override
@@ -44,7 +47,8 @@ public class Player extends UntypedActor {
     		this.playerWindow.repaint();
     		
     	} else if (message instanceof BingoExit) {
-    		exitGame();
+    		BingoExit exit = (BingoExit) message;
+    		exitGame(exit);
     	} else {
             unhandled(message);
     	}
@@ -58,6 +62,7 @@ public class Player extends UntypedActor {
     		getSender().tell(msgLinea, getSelf());    			    			
     		System.err.println("Bingo!!");
     		System.out.println(this.carton.toString());    		
+		
 		} else if (this.carton.isLinea()) {
 			BingoMessage msgLinea = new BingoMessage(Value.LINEA);
     		getSender().tell(msgLinea, getSelf());    			
@@ -66,18 +71,20 @@ public class Player extends UntypedActor {
 		}    	
     }
 
-    /**
-     * Cuidado puede ser que dos jugadores 
-     * tengan bimgo y solo gane el primero que
-     * informe al maestro. Bug.
-     */
-    private void exitGame() {
-    	if (this.carton.isBingo()) {
-    		System.out.println("He ganado!");
-    	} else {
-    		System.out.println("He perdido...");
+    private void exitGame(BingoExit exit) {
+    	System.err.println(String.format("Exit value : %d", exit.getExitValue()));
+    	if (exit.getExitValue() == 0) {
+    		System.err.println("He perdido...");
+    	} 
+    	if (exit.getExitValue() == -1) {
+    		System.err.println("Bombo vacio...");    		
     	}
-    	this.
+    	if (exit.getExitValue() == 1) {
+    		System.err.println("He ganado: " + id);    		    		
+    	}
+    	
+    	getSender().tell(new BingoAck(), getSelf());
+    	frameJ.dispose();
     	getContext().stop(getSelf());
     }
     

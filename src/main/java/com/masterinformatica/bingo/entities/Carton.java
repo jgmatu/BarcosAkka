@@ -6,8 +6,8 @@ import com.masterinformatica.bingo.views.Painter;
 
 public class Carton implements Painter {
 
-	public static final int ROWS = 3;
-	public static final int COLS = 3;
+	public static final int ROWS = 5;
+	public static final int COLS = 10;
 		
 	private Casilla[] casillas;
 	private boolean[] lineas;
@@ -71,7 +71,7 @@ public class Carton implements Painter {
 	public boolean isBingo() {
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				if (!this.casillas[i * COLS + j].isMarked()) {
+				if (!this.casillas[i * ROWS + j].isMarked()) {
 					return false;
 				}
 			}
@@ -82,7 +82,7 @@ public class Carton implements Painter {
 	public void mark(BingoNumber numb) {
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				Casilla casilla = this.casillas[i * COLS + j];
+				Casilla casilla = this.casillas[i * ROWS + j];
 				if (casilla.isCasilla(numb.getValue())) {
 					casilla.mark();					
 				}
@@ -97,7 +97,7 @@ public class Carton implements Painter {
 		format.append("Carton\n");
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				format.append(String.format(" %s ", this.casillas[i * COLS + j].toString()));				
+				format.append(String.format(" %s ", this.casillas[i * ROWS+ j].toString()));				
 			}
 			format.append('\n');
 		}

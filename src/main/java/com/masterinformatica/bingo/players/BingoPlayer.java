@@ -8,10 +8,14 @@ public class BingoPlayer {
 
 	private ActorRef player;
 	private Score score;
+	private boolean close;
+	private int id;
 	
-	public BingoPlayer(ActorRef player) {
+	public BingoPlayer(ActorRef player, int id) {
 		this.player = player;
 		this.score = new Score();
+		this.close = false;
+		this.id = id;
 	}
 	
 	public void setScoreLine() {
@@ -30,4 +34,15 @@ public class BingoPlayer {
 		return this.player;
 	}
 	
+	public void setClosed() {
+		this.close = true;
+	}
+	
+	public boolean isClosed() {
+		return this.close;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
 }

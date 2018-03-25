@@ -5,12 +5,11 @@ import java.awt.Graphics;
 import com.masterinformatica.bingo.entities.Carton;
 
 @SuppressWarnings("serial")
-public class ViewPlayer extends ViewGame {
+public class ViewPlayer extends ViewBingo {
 
 
 	public ViewPlayer(Carton c) {
 		super();
-		System.out.println(c.toString());
 		this.matriz = c.getPaint();
 	}
 
