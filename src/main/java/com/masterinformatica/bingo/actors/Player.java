@@ -80,7 +80,10 @@ public class Player extends UntypedActor {
     		System.err.println("Bombo vacio...");    		
     	}
     	if (exit.getExitValue() == 1) {
-    		System.err.println("He ganado: " + id);    		    		
+    		System.err.println("He ganado: " + id);
+    		this.playerWindow.setWin(true);
+    		this.playerWindow.repaint();
+    		this.frameJ.setAlwaysOnTop(true);
     	}
     	
     	getSender().tell(new BingoAck(), getSelf());

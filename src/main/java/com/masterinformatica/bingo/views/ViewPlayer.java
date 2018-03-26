@@ -18,6 +18,10 @@ public class ViewPlayer extends ViewBingo {
 		this.paint = paint;
 	}
 	
+	public void setWin(boolean win) {
+		this.win = win;
+	}
+	
     @Override
 	public void paint(Graphics g) {
     	super.paint(g);

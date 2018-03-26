@@ -11,11 +11,12 @@ public class ViewBingo extends JPanel {
 
 	protected int maxNumber;
 	protected int numberGenerate;
-	protected boolean paint;
+	protected boolean paint, win;
 	protected int[][] matriz;
 
 	public ViewBingo() {
 		this.paint = false;
+		this.win = false;
 		this.numberGenerate = -1;
 		this.maxNumber = -1;
 	}
@@ -25,6 +26,10 @@ public class ViewBingo extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		if (!this.paint) {
 			return;
+		}
+		if(win) {
+			g2d.setColor(Color.RED);
+			g2d.drawString("Winner", 100, 100);
 		}
 		
 		for (int y = 0; y < matriz.length; y++) {
