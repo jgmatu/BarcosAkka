@@ -77,21 +77,8 @@ public class Player extends UntypedActor {
     }
 
     private void exitGame(BingoExit exit) {
-    	System.err.println(String.format("Exit value : %d", exit.getExitValue()));
-    	if (exit.getExitValue() == 0) {
-    		System.err.println("He perdido...");
-    	} 
-    	if (exit.getExitValue() == -1) {
-    		System.err.println("Bombo vacio...");    		
-    	}
-    	if (exit.getExitValue() == 1) {
-    		System.err.println("He ganado: " + id);
-    		this.playerWindow.setWin(true);
-    		this.playerWindow.repaint();
-    		this.frameJ.setAlwaysOnTop(true);
-    	}
-    	
     	getSender().tell(new BingoAck(), getSelf());
+
     	frameJ.dispose();
     	getContext().stop(getSelf());
     }
