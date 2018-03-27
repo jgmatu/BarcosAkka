@@ -1,6 +1,5 @@
 package com.masterinformatica.bingo.actors;
 
-import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
@@ -58,9 +57,9 @@ public class Manager extends UntypedActor {
 		}
 	}
 	
-	public void closeSystem(ActorRef winner) {
-		this.diller.getActor().tell(new BingoExit(-1), getSelf());
-		this.players.sendFinalize(this, winner);
+	public void closeSystem(BingoExit exit) {
+		this.diller.getActor().tell(exit, getSelf());
+		this.players.sendFinalize(this);
 	}
 	
 	private void checkExit() {
@@ -83,28 +82,35 @@ public class Manager extends UntypedActor {
 	private void proccessGameEvent(BingoMessage message) {		
 		BingoMessage.Value type = message.getValue();
 
-		if (type == Value.BINGO) {
-			
-			this.isBingo = true;
-			showResultsGame();	
-			
-			ViewExit exitView = new ViewExit("Cierre del juego por Bingo!");
-			exitView.setExitButton(this, getSender());
+		if (type == Value.BINGO) {	
+			endGame();
 		} 
 		
 		if (type == Value.LINEA) {
 			players.setScoreBingo(getSender());			
 		}			
+		getSender().tell(message, getSelf());
+	}
+	
+	private void endGame() {
+		this.isBingo = true;
+		showResultsGame();				
+		viewExitWindow("Cierre del juego por Bingo!");
 	}
 
 	private void inesperatedExit(BingoExit exit) {
 		if (exit.getExitValue() < 0) {
 			System.err.println("Bombo Vacío...");
 		} 
-		ViewExit exitView = new ViewExit("Cierre del juego por Bombo vacío!");
+		viewExitWindow("Cierre del juego por Bombo vacío!");
+	}
+		
+	private void viewExitWindow(String info) {		
+		ViewExit exitView = new ViewExit(info);
+
 		exitView.setExitButton(this, getSender());
 	}
-	
+
 	private void showResultsGame() {
 		int[] scores = this.players.getResultsGame();
 		int max = Integer.MIN_VALUE, idx = -1;

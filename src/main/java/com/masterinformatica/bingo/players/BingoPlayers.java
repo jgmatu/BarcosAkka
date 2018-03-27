@@ -62,13 +62,11 @@ public class BingoPlayers {
 		return scores;
 	}
 
-	public void sendFinalize(Manager manager, ActorRef winner) {
+	public void sendFinalize(Manager manager) {
+		BingoExit exit = new BingoExit(0);
+		
 		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
-			if (this.players[i].getActor() == winner) {
-				this.players[i].getActor().tell(new BingoExit(1), manager.getSelf());				
-			} else {
-				this.players[i].getActor().tell(new BingoExit(0), manager.getSelf());								
-			}
+			this.players[i].getActor().tell(exit, manager.getSelf());				
 		}
 	}	
 	

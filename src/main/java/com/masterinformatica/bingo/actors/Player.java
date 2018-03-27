@@ -46,11 +46,16 @@ public class Player extends UntypedActor {
     		this.playerWindow.setNumberGenerateP(numb.getValue(), true);
     		this.playerWindow.repaint();
     		
-    	} else if (message instanceof BingoExit) {
+    	}
+    	
+    	if (message instanceof BingoExit) {
     		BingoExit exit = (BingoExit) message;
     		exitGame(exit);
-    	} else {
-            unhandled(message);
+    	}
+    	 
+    	if (message instanceof BingoMessage) {
+    		BingoMessage validate = (BingoMessage) message;
+    		viewValidate(validate);
     	}
     }
 
@@ -91,6 +96,18 @@ public class Player extends UntypedActor {
     	getContext().stop(getSelf());
     }
     
+    public void viewValidate(BingoMessage validate) {
+    	Value value = validate.getValue(); 
+    	
+    	if (value == Value.BINGO) {
+    		System.out.println("He ganado!!");
+    	}
+    	
+    	if (value == Value.LINEA) {
+    		System.out.println("Me validan la linea!!");
+    	}
+    }
+     
     
     @Override 
     public void unhandled(Object message) {

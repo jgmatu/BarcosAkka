@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.masterinformatica.bingo.actors.Manager;
+import com.masterinformatica.bingo.messages.BingoExit;
 
 import akka.actor.ActorRef;
 
@@ -57,7 +58,7 @@ public class ViewExit extends JFrame {
 		ActionListener listener = new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				manager.closeSystem(winner);
+				manager.closeSystem(new BingoExit(0));
 				dispose();
 			}
 		};
