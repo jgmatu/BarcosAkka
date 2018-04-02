@@ -39,8 +39,8 @@ public class Bombo implements Painter {
 		for (;;) {
 			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS) + 1;
 			
-			if (this.numbers[numb]) {
-				this.numbers[numb] = false;
+			if (this.numbers[numb - 1]) {
+				this.numbers[numb - 1] = false;
 				return new BingoNumber(numb);
 			}
 		}
@@ -48,7 +48,7 @@ public class Bombo implements Painter {
 	
 	private boolean empty() {
 		for (int i = 0; i < MAX_NUMBERS; ++i) {
-			if (numbers[i]) {
+			if (this.numbers[i]) {
 				return false;
 			}
 		}
