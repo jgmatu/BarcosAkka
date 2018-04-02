@@ -32,7 +32,7 @@ public class Carton implements Painter {
 		boolean inserted = false;
 
 		do {
-			int number = rand.nextInt(Bombo.MAX_NUMBERS);
+			int number = rand.nextInt(Bombo.MAX_NUMBERS) + 1;
 			if (!this.contains(number)) {				
 				this.casillas[row * COLS + col] = new Casilla(new Coordenada(row, col), number);															
 				inserted = true;

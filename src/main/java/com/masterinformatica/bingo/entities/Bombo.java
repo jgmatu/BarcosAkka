@@ -37,7 +37,7 @@ public class Bombo implements Painter {
 		}
 				
 		for (;;) {
-			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS);
+			int numb = this.seed.nextInt(Bombo.MAX_NUMBERS) + 1;
 			
 			if (this.numbers[numb]) {
 				this.numbers[numb] = false;
@@ -75,7 +75,7 @@ public class Bombo implements Painter {
 		int cols = MAX_NUMBERS / rows;
 		int[][] paint = new int[rows][cols];
 
-		int numb = 0;
+		int numb = 1; // Primer número del bingo...
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				paint[i][j] = numb++;
