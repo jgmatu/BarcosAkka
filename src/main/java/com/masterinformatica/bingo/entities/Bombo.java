@@ -15,11 +15,10 @@ import com.masterinformatica.bingo.views.Painter;
 public class Bombo implements Painter {
 
 	public static final int MAX_NUMBERS = 100; // El bombo solo se visualizará de forma correcta
-											   // con una cantidad e números multiplo de 20, es 
+											   // con una cantidad de números multiplo de 20, es 
 											   // es la manera en la que está calculada la vista 
 											   // del juego del bombo.
 											   
-	
 	private boolean numbers[]; 
 	private Random seed;
 	
