@@ -83,11 +83,11 @@ public class Manager extends UntypedActor {
 		BingoMessage.Value type = message.getValue();
 
 		if (type == Value.BINGO) {	
+			players.setScoreBingo(getSender());
 			endGame();
-		} 
-		
+		}
 		if (type == Value.LINEA) {
-			players.setScoreBingo(getSender());			
+			players.setScoreLine(getSender());			
 		}			
 		getSender().tell(message, getSelf());
 	}
@@ -116,7 +116,7 @@ public class Manager extends UntypedActor {
 		int max = Integer.MIN_VALUE, idx = -1;
 		
 		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
-			System.out.println(String.format("\nPlayer : %d score %d\n", i, scores[i]));
+			System.out.println(String.format("\nPlayer : %d score %d", i, scores[i]));
 			if (scores[i] > max) {
 				max = scores[i];
 				idx = i;

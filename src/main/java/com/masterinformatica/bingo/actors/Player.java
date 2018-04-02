@@ -20,12 +20,14 @@ public class Player extends UntypedActor {
 	private Carton carton;
 	private JFrame frameJ;
 	private ViewPlayer playerWindow;
+	private int id;
 
 	public Player(int id) {
     	this.carton = new Carton();
 		System.out.println(this.carton.toString());    		
-
-    	this.frameJ = new JFrame("Player: " + id);
+		
+		this.id = id;
+    	this.frameJ = new JFrame("Player: " + this.id);
     	this.playerWindow = new ViewPlayer(carton);
 
     	this.frameJ.add(playerWindow);
@@ -83,11 +85,11 @@ public class Player extends UntypedActor {
     	Value value = validate.getValue(); 
     	
     	if (value == Value.BINGO) {
-    		System.out.println("He ganado!!");
+    		System.out.println("He ganado!!" + this.id);
     	}
     	
     	if (value == Value.LINEA) {
-    		System.out.println("Me validan la linea!!");
+    		System.out.println("Me validan la linea!!" + this.id);
     	}
     }
      
