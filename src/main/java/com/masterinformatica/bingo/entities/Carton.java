@@ -6,8 +6,8 @@ import com.masterinformatica.bingo.views.Painter;
 
 public class Carton implements Painter {
 
-	public static final int ROWS = 5;
-	public static final int COLS = 10;
+	public static final int ROWS = 2;
+	public static final int COLS = 4;
 		
 	private Casilla[] casillas;
 	private boolean[] lineas;
@@ -21,20 +21,20 @@ public class Carton implements Painter {
 	private void init() {		
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				insertNumber(i, j);
+				this.insertNumber(i, j);
 			}
 			this.lineas[i] = false;
 		}		
 	}
 	
-	private void insertNumber(int i, int j) {
+	private void insertNumber(int row, int col) {
 		Random rand = new Random();
 		boolean inserted = false;
 
 		do {
 			int number = rand.nextInt(Bombo.MAX_NUMBERS);
 			if (!this.contains(number)) {				
-				this.casillas[i * ROWS + j] = new Casilla(new Coordenada(i, j), number);															
+				this.casillas[row * COLS + col] = new Casilla(new Coordenada(row, col), number);															
 				inserted = true;
 			}
 		} while (!inserted);
@@ -61,7 +61,7 @@ public class Carton implements Painter {
 		
 	private boolean isLineMarked(int row) {
 		for (int j = 0; j < COLS; ++j) {
-			if (!this.casillas[row * ROWS + j].isMarked()) {
+			if (!this.casillas[row * COLS + j].isMarked()) {
 				return false;
 			}				
 		}
@@ -71,7 +71,7 @@ public class Carton implements Painter {
 	public boolean isBingo() {
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				if (!this.casillas[i * ROWS + j].isMarked()) {
+				if (!this.casillas[i * COLS + j].isMarked()) {
 					return false;
 				}
 			}
@@ -82,7 +82,7 @@ public class Carton implements Painter {
 	public void mark(BingoNumber numb) {
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				Casilla casilla = this.casillas[i * ROWS + j];
+				Casilla casilla = this.casillas[i * COLS + j];
 				if (casilla.isCasilla(numb.getValue())) {
 					casilla.mark();					
 				}
@@ -97,7 +97,7 @@ public class Carton implements Painter {
 		format.append("Carton\n");
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				format.append(String.format(" %s ", this.casillas[i * ROWS+ j].toString()));				
+				format.append(String.format(" %s ", this.casillas[i * COLS + j].toString()));				
 			}
 			format.append('\n');
 		}
@@ -110,8 +110,8 @@ public class Carton implements Painter {
 
 		for (int i = 0; i < ROWS; ++i) {
 			for (int j = 0; j < COLS; ++j) {
-				System.out.print(String.format(" %d ", this.casillas[i * ROWS + j].getValue()));
-				paint[i][j] = this.casillas[i * ROWS + j].getValue();				
+				System.out.print(String.format(" %d ", this.casillas[i * COLS + j].getValue()));
+				paint[i][j] = this.casillas[i * COLS + j].getValue();				
 			}
 		}
 		System.out.println();

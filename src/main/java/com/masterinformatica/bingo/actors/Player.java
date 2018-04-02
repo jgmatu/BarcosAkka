@@ -20,11 +20,11 @@ public class Player extends UntypedActor {
 	private Carton carton;
 	private JFrame frameJ;
 	private ViewPlayer playerWindow;
-	private int id;
 
 	public Player(int id) {
     	this.carton = new Carton();
-    	this.id = id;
+		System.out.println(this.carton.toString());    		
+
     	this.frameJ = new JFrame("Player: " + id);
     	this.playerWindow = new ViewPlayer(carton);
 
@@ -41,11 +41,9 @@ public class Player extends UntypedActor {
     	if (message instanceof BingoNumber) {
     		BingoNumber numb = (BingoNumber) message;
 
-    		markNumber(numb);
-    		
+    		this.markNumber(numb);
     		this.playerWindow.setNumberGenerateP(numb.getValue(), true);
     		this.playerWindow.repaint();
-    		
     	}
     	
     	if (message instanceof BingoExit) {
@@ -66,13 +64,11 @@ public class Player extends UntypedActor {
 			BingoMessage msgLinea = new BingoMessage(Value.BINGO);
     		getSender().tell(msgLinea, getSelf());    			    			
     		System.err.println("Bingo!!");
-    		System.out.println(this.carton.toString());    		
 		
 		} else if (this.carton.isLinea()) {
 			BingoMessage msgLinea = new BingoMessage(Value.LINEA);
     		getSender().tell(msgLinea, getSelf());    			
     		System.err.println("Linea!!");
-    		System.out.println(this.carton.toString());    		
 		}    	
     }
 

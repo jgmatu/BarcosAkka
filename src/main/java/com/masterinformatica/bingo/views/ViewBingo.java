@@ -27,25 +27,30 @@ public class ViewBingo extends JPanel {
 		if (!this.paint) {
 			return;
 		}
+		
 		if(win) {
 			g2d.setColor(Color.RED);
 			g2d.drawString("Winner", 100, 100);
+			return;
 		}
 		
-		for (int y = 0; y < matriz.length; y++) {
-			for (int x = 0; x < matriz[y].length; x++) {
+		// Print all numbers...
+		for (int y = 0; y < this.matriz.length; y++) {
+			for (int x = 0; x < this.matriz[y].length; x++) {
 				int auxX = 50 * x;
 				int auxY = 50 * y;
 				g2d.drawString(String.valueOf(this.matriz[y][x]), auxX + 5, auxY + 20);
 			}
 		}
+		
+		// Draw rectangles...
 		for (int y = 0; y < this.matriz.length; y++) {
 			for (int x = 0; x < this.matriz[y].length; x++) {
 				if (this.matriz[y][x] == this.numberGenerate) {
 					int auxX = 50 * x;
 					int auxY = 50 * y;
 					g2d.setColor(Color.RED);
-					g2d.drawRect(auxX, auxY, 50, 50);
+					g2d.drawRect(auxX, auxY, 25, 25);
 				}
 			}
 		}
