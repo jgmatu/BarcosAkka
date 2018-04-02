@@ -126,7 +126,7 @@ public class Manager extends UntypedActor {
 				max = scores[i];
 				idx = i;
 			}
-			System.out.println(String.format("Player : %d bote %f €", i, BOTE * scores[i]));
+			System.out.println(String.format("Jugador : %d bote %f €", i, BOTE * scores[i]));
 		}
 		System.out.println(String.format("Gana Jugador : %d", idx));
  	}
