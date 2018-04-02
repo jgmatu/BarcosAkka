@@ -65,12 +65,12 @@ public class Player extends UntypedActor {
 		if (this.carton.isBingo()) {
 			BingoMessage msgLinea = new BingoMessage(Value.BINGO);
     		getSender().tell(msgLinea, getSelf());    			    			
-    		System.err.println("Bingo!!");
+    		System.out.println("Bingo!!");
 		
 		} else if (this.carton.isLinea()) {
 			BingoMessage msgLinea = new BingoMessage(Value.LINEA);
     		getSender().tell(msgLinea, getSelf());    			
-    		System.err.println("Linea!!");
+    		System.out.println("Linea!!");
 		}    	
     }
 
@@ -85,14 +85,17 @@ public class Player extends UntypedActor {
     	Value value = validate.getValue(); 
     	
     	if (value == Value.BINGO) {
-    		System.out.println("He ganado!!" + this.id);
+    		System.out.println(getJugadorPrefix() + " he ganado!!");
     	}
     	
     	if (value == Value.LINEA) {
-    		System.out.println("Me validan la linea!!" + this.id);
+    		System.out.println(getJugadorPrefix() + " he hecho linea!");
     	}
     }
      
+    private String getJugadorPrefix() {
+    	return "Jugador " + this.id + ":";
+    }
     
     @Override 
     public void unhandled(Object message) {

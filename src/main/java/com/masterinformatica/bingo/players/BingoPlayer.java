@@ -26,7 +26,7 @@ public class BingoPlayer {
 		this.score.setBingo();
 	}
 	
-	public int getScore() {
+	public float getScore() {
 		return this.score.getScore();
 	}
 	

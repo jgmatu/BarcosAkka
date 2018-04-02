@@ -2,10 +2,10 @@ package com.masterinformatica.bingo.entities;
 
 public class Score {
 	
-	private static int SCORE_LINE = 10;
-	private static int SCORE_BINGO = 200;
+	private static final float SCORE_LINE = 0.1f;
+	private static final float SCORE_BINGO = 0.5f;
 	
-	private int score;
+	private float score;
 	
 	public Score() {
 		this.score = 0;
@@ -19,7 +19,7 @@ public class Score {
 		this.score += SCORE_BINGO;
 	}
 	
-	public int getScore() {
+	public float getScore() {
 		return this.score;
 	}
 	

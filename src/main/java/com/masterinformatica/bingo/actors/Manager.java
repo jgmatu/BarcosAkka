@@ -17,14 +17,18 @@ import com.masterinformatica.bingo.views.ViewExit;
 public class Manager extends UntypedActor {
 
 	public static final int NUM_JUGADORES = 2;
+	private static final float BOTE = 10000f; // €.
+	
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	private BingoPlayers players;
 	private BingoDiller diller;
 	private boolean isBingo;
+	private int numLineas;
 	
 	public Manager() {
 		this.isBingo = false;
+		this.numLineas = 0;
 		this.players = new BingoPlayers(this);
 		this.diller = new BingoDiller(getContext().actorOf(Props.create(Diller.class)));
 	}
@@ -86,8 +90,9 @@ public class Manager extends UntypedActor {
 			players.setScoreBingo(getSender());
 			endGame();
 		}
-		if (type == Value.LINEA) {
+		if (type == Value.LINEA && this.numLineas < 5) {
 			players.setScoreLine(getSender());			
+			this.numLineas++;
 		}			
 		getSender().tell(message, getSelf());
 	}
@@ -112,17 +117,18 @@ public class Manager extends UntypedActor {
 	}
 
 	private void showResultsGame() {
-		int[] scores = this.players.getResultsGame();
-		int max = Integer.MIN_VALUE, idx = -1;
+		float[] scores = this.players.getResultsGame();
+		float max = Integer.MIN_VALUE;
+		int idx = -1;
 		
 		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
-			System.out.println(String.format("\nPlayer : %d score %d", i, scores[i]));
 			if (scores[i] > max) {
 				max = scores[i];
 				idx = i;
 			}
+			System.out.println(String.format("Player : %d bote %f €", i, BOTE * scores[i]));
 		}
-		System.out.println(String.format("Gana Jugador : %d\n", idx));
+		System.out.println(String.format("Gana Jugador : %d", idx));
  	}
 	
 	@Override

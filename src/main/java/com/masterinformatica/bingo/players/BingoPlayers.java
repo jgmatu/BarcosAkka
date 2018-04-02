@@ -53,8 +53,8 @@ public class BingoPlayers {
 		}
 	}
 	
-	public int[] getResultsGame() {
-		int scores[] = new int[Manager.NUM_JUGADORES];
+	public float[] getResultsGame() {
+		float scores[] = new float[Manager.NUM_JUGADORES];
 		
 		for (int i = 0; i < Manager.NUM_JUGADORES; i++) {
 			scores[i] = this.players[i].getScore();
