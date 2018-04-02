@@ -16,7 +16,7 @@ import com.masterinformatica.bingo.views.ViewExit;
 
 public class Manager extends UntypedActor {
 
-	public static final int NUM_JUGADORES = 2;
+	public static final int NUM_JUGADORES = 3;
 	private static final float BOTE = 10000f; // €.
 	
 	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
