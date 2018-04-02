@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import com.masterinformatica.bingo.entities.Carton;
 import com.masterinformatica.bingo.messages.BingoNumber;
 import com.masterinformatica.bingo.messages.BingoAck;
+import com.masterinformatica.bingo.messages.BingoBote;
 import com.masterinformatica.bingo.messages.BingoExit;
 import com.masterinformatica.bingo.messages.BingoMessage;
 import com.masterinformatica.bingo.messages.BingoMessage.Value;
@@ -28,9 +29,9 @@ public class Player extends UntypedActor {
 		
 		this.id = id;
     	this.frameJ = new JFrame("Player: " + this.id);
-    	this.playerWindow = new ViewPlayer(carton);
+    	this.playerWindow = new ViewPlayer(this.carton);
 
-    	this.frameJ.add(playerWindow);
+    	this.frameJ.add(this.playerWindow);
         this.frameJ.setSize(Carton.COLS * 60, Carton.ROWS * 60);
         this.frameJ.setLocationRelativeTo(null);
         this.frameJ.setVisible(true);
@@ -42,10 +43,9 @@ public class Player extends UntypedActor {
     public void onReceive(Object message)  throws Exception{    	
     	if (message instanceof BingoNumber) {
     		BingoNumber numb = (BingoNumber) message;
-
+    		
     		this.markNumber(numb);
     		this.playerWindow.setNumberGenerateP(numb.getValue(), true);
-    		this.playerWindow.repaint();
     	}
     	
     	if (message instanceof BingoExit) {
@@ -57,6 +57,12 @@ public class Player extends UntypedActor {
     		BingoMessage validate = (BingoMessage) message;
     		viewValidate(validate);
     	}
+    	
+    	if (message instanceof BingoBote) {
+    		BingoBote bote = (BingoBote) message;
+    		this.playerWindow.setBote(bote.getBote());
+    	}
+		this.playerWindow.repaint();
     }
 
     private void markNumber(BingoNumber numb) {
@@ -85,6 +91,7 @@ public class Player extends UntypedActor {
     	Value value = validate.getValue(); 
     	
     	if (value == Value.BINGO) {
+    		this.playerWindow.setWinner();
     		System.out.println(getJugadorPrefix() + " he ganado!!");
     	}
     	

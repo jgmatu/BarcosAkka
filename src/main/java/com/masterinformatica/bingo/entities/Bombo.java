@@ -14,7 +14,7 @@ import com.masterinformatica.bingo.views.Painter;
  */
 public class Bombo implements Painter {
 
-	public static final int MAX_NUMBERS = 30;
+	public static final int MAX_NUMBERS = 40;
 	
 	private boolean numbers[]; 
 	private Random seed;

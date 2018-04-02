@@ -2,6 +2,7 @@ package com.masterinformatica.bingo.players;
 
 import com.masterinformatica.bingo.actors.Manager;
 import com.masterinformatica.bingo.actors.Player;
+import com.masterinformatica.bingo.messages.BingoBote;
 import com.masterinformatica.bingo.messages.BingoExit;
 import com.masterinformatica.bingo.messages.BingoNumber;
 
@@ -85,5 +86,11 @@ public class BingoPlayers {
 			}
 		}
 		return true;
+	}
+	
+	public void sendBote(Manager manager, float bote[]) {
+		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
+			players[i].getActor().tell(new BingoBote(bote[i]), manager.getSelf());
+		}
 	}
 }

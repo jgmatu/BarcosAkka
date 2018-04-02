@@ -16,6 +16,9 @@ import com.masterinformatica.bingo.views.ViewExit;
 
 public class Manager extends UntypedActor {
 
+	private static final int MAX_LINES = 5; // Este número depende del porcentaje de bote para las lineas 
+											// no debe ser mayor de 10 y debe ser siempre la suma con el bigo
+											// 10. Para 5 lineas el 50% del bote es por bingo.
 	public static final int NUM_JUGADORES = 3;
 	private static final float BOTE = 10000f; // €.
 	
@@ -90,7 +93,7 @@ public class Manager extends UntypedActor {
 			players.setScoreBingo(getSender());
 			endGame();
 		}
-		if (type == Value.LINEA && this.numLineas < 5) {
+		if (type == Value.LINEA && this.numLineas < MAX_LINES) {
 			players.setScoreLine(getSender());			
 			this.numLineas++;
 		}			
@@ -99,7 +102,7 @@ public class Manager extends UntypedActor {
 	
 	private void endGame() {
 		this.isBingo = true;
-		showResultsGame();				
+		sendResultsGame();				
 		viewExitWindow("Cierre del juego por Bingo!");
 	}
 
@@ -116,18 +119,21 @@ public class Manager extends UntypedActor {
 		exitView.setExitButton(this, getSender());
 	}
 
-	private void showResultsGame() {
+	private void sendResultsGame() {
 		float[] scores = this.players.getResultsGame();
+		float[] bote = new float[NUM_JUGADORES];
 		float max = Integer.MIN_VALUE;
 		int idx = -1;
 		
-		for (int i = 0; i < Manager.NUM_JUGADORES; ++i) {
+		for (int i = 0; i < NUM_JUGADORES; ++i) {
 			if (scores[i] > max) {
 				max = scores[i];
 				idx = i;
 			}
-			System.out.println(String.format("Jugador : %d bote %f €", i, BOTE * scores[i]));
+			bote[i] = BOTE * scores[i];
+			System.out.println(String.format("Jugador : %d bote %f €", i, bote[i]));
 		}
+		players.sendBote(this, bote);
 		System.out.println(String.format("Gana Jugador : %d", idx));
  	}
 	

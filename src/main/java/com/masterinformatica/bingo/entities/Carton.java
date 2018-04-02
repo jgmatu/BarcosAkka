@@ -6,8 +6,8 @@ import com.masterinformatica.bingo.views.Painter;
 
 public class Carton implements Painter {
 
-	public static final int ROWS = 6;
-	public static final int COLS = 2;
+	public static final int ROWS = 3;
+	public static final int COLS = 6;
 		
 	private Casilla[] casillas;
 	private boolean[] lineas;
